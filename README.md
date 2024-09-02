@@ -44,7 +44,7 @@ sequenceDiagram
 
 customer can run and build the private location worker on their premises using a container.
 
-container image will be provided by octomind see [registry](https://hub.docker.com) or it can be build on your own see [below](#build)
+container image will be provided by octomind see [registry](eu.gcr.io/octomind-dev/plw:latest) or it can be build on your own see [below](#build)
 
 to run the container a few environment variables are needed
 ## environment vars
@@ -65,7 +65,7 @@ NYI: for scaling we will also support multiple instances of worker with the same
 
 private location worker can simply run as docker container:
 ```
-docker run --rm -e PLW_NAME=worker1 -e APIKEY=12345 -e PROXY_PASS=secret -e PROXY_USER=octo octomind/plw:latest
+docker run --rm -e PLW_NAME=worker1 -e APIKEY=12345 -e PROXY_PASS=secret -e PROXY_USER=octo eu.gcr.io/octomind-dev/plw:latest
 ```
 
 or use docker compose like this.
@@ -73,7 +73,7 @@ or use docker compose like this.
 ```yaml
 services:
   private-location-worker:
-    image: plw:local
+    image: eu.gcr.io/octomind-dev/plw:latest
     environment:
       APIKEY: 1234
       PLW_NAME: worker1
