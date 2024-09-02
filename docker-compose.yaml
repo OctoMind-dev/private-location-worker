@@ -1,0 +1,9 @@
+services:
+  private-location-worker:
+    image: plw:local
+    environment:
+      APIKEY: 1234
+      PLW_NAME: worker1
+      PROXY_USER: foo
+      PROXY_PASS: bar
+    restart: on-failure

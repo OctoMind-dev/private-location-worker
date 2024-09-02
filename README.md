@@ -68,3 +68,17 @@ private location worker can simply run as docker container:
 docker run --rm -e PLW_NAME=worker1 -e APIKEY=12345 -e PROXY_PASS=secret -e PROXY_USER=octo octomind/plw:latest
 ```
 
+or use docker compose like this.
+
+```yaml
+services:
+  private-location-worker:
+    image: plw:local
+    environment:
+      APIKEY: 1234
+      PLW_NAME: worker1
+      PROXY_USER: foo
+      PROXY_PASS: bar
+    restart: on-failure
+```
+

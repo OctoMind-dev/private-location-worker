@@ -1,11 +1,12 @@
 #!/bin/sh
 
 set -e
+TS=`date "+%Y/%m/%d %H:%M:%S"`
 
 CHOWN=$(/usr/bin/which chown)
 SQUID=$(/usr/bin/which squid)
 
-mkdir /var/spool/squid
+mkdir -p /var/spool/squid
 
 # Ensure permissions are set correctly on the Squid cache + log dir.
 "$CHOWN" -R squid:squid /var/spool/squid
@@ -13,9 +14,10 @@ mkdir /var/spool/squid
 "$CHOWN" -R squid:squid /var/log/squid
 
 # Prepare the cache using Squid.
-echo "Initializing cache..."
+echo "$TS Initializing cache..."
 "$SQUID" -z
 
+echo "$TS Starting frp client"
 # start frpc
 sh -c 'exec /app/frp/frpc -c /app/frp/frpc.toml' &
 
@@ -23,20 +25,20 @@ sh -c 'exec /app/frp/frpc -c /app/frp/frpc.toml' &
 sleep 3
 
 REMOTE_ADDR=$(curl -s http://localhost:7400/api/status | jq '.tcp[0]["remote_addr"]')
-echo "local squid proxy will be forwarded from $REMOTE_ADDR"
+echo "$TS local squid proxy will be forwarded from $REMOTE_ADDR"
 
 if [ -z "${PROXY_USER}" ]; then
-  echo "PROXY_USER environment variable was not set. Exiting."
+  echo "$TS PROXY_USER environment variable was not set. Exiting."
   exit 1
 fi
 if [ -z "${PROXY_PASS}" ]; then
-  echo "PROXY_PASS environment variable was not set. Exiting."
+  echo "$TS PROXY_PASS environment variable was not set. Exiting."
 fi
 
-echo "creating /etc/squid/passwords from environment PROXY_*"
+echo "$TS creating /etc/squid/passwords from environment PROXY_*"
 htpasswd -cbm /etc/squid/passwords $PROXY_USER $PROXY_PASS
 
 
 # Launch squid
-echo "Starting Squid..."
+echo "$TS Starting Squid..."
 exec "$SQUID" -NYCd 1
