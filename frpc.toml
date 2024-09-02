@@ -1,0 +1,21 @@
+#serverAddr = "164.68.97.176"
+#serverAddr = "35.192.162.70"
+serverAddr = "127.0.0.1"
+serverPort = 7000
+auth.method = "token"
+auth.token = "aWKF58f3wQgSSMzcNLoYexYyp3y9QsDG6"
+
+webServer.addr = "127.0.0.1"
+webServer.port = 7400
+# use first 10 chars of key as user (makes also the name unique)
+user = "{{ printf "%.10s" .Envs.APIKEY }}"
+
+metadatas.apikey = "{{ .Envs.APIKEY }}"
+metadatas.proxyuser = "{{ .Envs.PROXYUSER }}"
+metadatas.proxypass = "{{ .Envs.PROXYPASS }}"
+
+[[proxies]]
+name = "{{ .Envs.PLW_NAME }}"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 3128
