@@ -8,11 +8,37 @@ simple local squid proxy (password protected) accessable by a frp tunnel.
 
 ## new proxy / open proxy
 
-![new proxy flow](/images/NewProxy-seq.png)
+```mermaid
+sequenceDiagram
+    autonumber
+    title: private location worker: open a proxy with frp
+    frp-client->>+frp-server: NewProxy (proxyname)
+    frp-server->>+frp-server-plugin: create proxy allowed?
+    frp-server-plugin->>octo-service: known APIKEY, proxyname?
+    octo-service->>frp-server-plugin: yes
+    frp-server-plugin->>+frp-server: yes
+    frp-server->>frp-client: created
+    Note over frp-server-plugin,frp-server: short delay
+    frp-server-plugin->>frp-server: getProxyInfo( proxyname )
+    frp-server->>frp-server-plugin: info incl. ip & port
+    frp-server-plugin->>octo-service: update proxy
+    Note over octo-service: proxy will marked as active with IP & port
+```
 
 ## close proxy
 
-![close proxy flow](/images/CloseProxy-seq.png)
+```mermaid
+sequenceDiagram
+    autonumber
+    title: private location worker: close  a proxy with frp
+    frp-client->>+frp-server: CloseProxy (name)
+    frp-server->>+frp-server-plugin: close proxy (name)
+    frp-server-plugin->>octo-service: close proxy ( name )
+    Note over octo-service: proxy will marked as closed
+    octo-service->>frp-server-plugin: void
+    frp-server-plugin->>+frp-server: void
+    frp-server->>frp-client: close
+```
 
 # use
 
