@@ -25,6 +25,18 @@ sleep 3
 REMOTE_ADDR=$(curl -s http://localhost:7400/api/status | jq '.tcp[0]["remote_addr"]')
 echo "local squid proxy will be forwarded from $REMOTE_ADDR"
 
+if [ -z "${PROXY_USER}" ]; then
+  echo "PROXY_USER environment variable was not set. Exiting."
+  exit 1
+fi
+if [ -z "${PROXY_PASS}" ]; then
+  echo "PROXY_PASS environment variable was not set. Exiting."
+fi
+
+echo "creating /etc/squid/passwords from environment PROXY_*"
+htpasswd -cbm /etc/squid/passwords $PROXY_USER $PROXY_PASS
+
+
 # Launch squid
 echo "Starting Squid..."
 exec "$SQUID" -NYCd 1
