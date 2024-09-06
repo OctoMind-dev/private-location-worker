@@ -21,8 +21,8 @@ sequenceDiagram
     Note over frp-server-plugin,frp-server: short delay
     frp-server-plugin->>frp-server: getProxyInfo( proxyname )
     frp-server->>frp-server-plugin: info incl. ip & port
-    frp-server-plugin->>octo-service: update proxy
-    Note over octo-service: proxy will marked as active with IP & port
+    frp-server-plugin->>octo-service: register proxy (name, info)
+    Note over octo-service: proxy will marked as online with IP & port
 ```
 
 ## close proxy
@@ -33,8 +33,8 @@ sequenceDiagram
     title: private location worker: close  a proxy with frp
     frp-client->>+frp-server: CloseProxy (name)
     frp-server->>+frp-server-plugin: close proxy (name)
-    frp-server-plugin->>octo-service: close proxy ( name )
-    Note over octo-service: proxy will marked as closed
+    frp-server-plugin->>octo-service: unregister proxy ( name )
+    Note over octo-service: proxy will marked as offline
     octo-service->>frp-server-plugin: void
     frp-server-plugin->>+frp-server: void
     frp-server->>frp-client: close
