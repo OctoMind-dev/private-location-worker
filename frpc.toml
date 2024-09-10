@@ -1,6 +1,5 @@
-#serverAddr = "164.68.97.176"
-#serverAddr = "35.192.162.70"
-serverAddr = "127.0.0.1"
+# use the server address from the EU proxy as default
+serverAddr = "{{ or .Envs.SERVER_ADDR "34.159.153.198" }}"
 serverPort = 7000
 auth.method = "token"
 auth.token = "aWKF58f3wQgSSMzcNLoYexYyp3y9QsDG6"
@@ -11,8 +10,9 @@ webServer.port = 7400
 user = "{{ printf "%.10s" .Envs.APIKEY }}"
 
 metadatas.apikey = "{{ .Envs.APIKEY }}"
-metadatas.proxyuser = "{{ .Envs.PROXYUSER }}"
-metadatas.proxypass = "{{ .Envs.PROXYPASS }}"
+metadatas.proxyuser = "{{ .Envs.PROXY_USER }}"
+metadatas.proxypass = "{{ .Envs.PROXY_PASS }}"
+metadatas.type = "plw"
 
 [[proxies]]
 name = "{{ .Envs.PLW_NAME }}"

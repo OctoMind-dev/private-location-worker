@@ -53,6 +53,7 @@ to run the container a few environment variables are needed
 - PLW_NAME: name of the private locations worker as registered in the octomind platform (name must match)
 - PROXY_USER: username for the (squid) proxy
 - PROXY_PASS: password for the (squid) proxy
+- SERVER_ADDR: the address of the server that the worker will connect (one of our proxy server addresses 35.192.162.70 or 34.159.153.198)
 
 The PROXY_USER and PROXY_PASS will protect your local proxy from authenticated access. When the worker starts it will register with the octomind platform and set the proxy user and pass, so that the octomind agent and test runner can of course use the proxy.
 
