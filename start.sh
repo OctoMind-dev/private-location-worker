@@ -13,11 +13,15 @@ mkdir -p /var/spool/squid
 "$CHOWN" -R squid:squid /var/cache/squid
 "$CHOWN" -R squid:squid /var/log/squid
 
+# create and prepate fd=3 as duplicate for stdout
+exec 3>&1
+chmod a+w /dev/fd/3
+
 # Prepare the cache using Squid.
 echo "$TS Initializing cache..."
 "$SQUID" -z
 
-echo "$TS Starting frp client"
+echo "$TS Starting frp client, connecting to $SERVER_ADDR"
 # start frpc
 sh -c 'exec /app/frp/frpc -c /app/frp/frpc.toml' &
 
