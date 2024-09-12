@@ -17,7 +17,6 @@ jobs:
         JSON_KEY_B64: ${{ secrets.JSON_KEY_B64 }}
       run: |
         echo "Building and pushing $RELEASE_VERSION"
-        echo "$JSON_KEY_B64"
         echo "$JSON_KEY_B64" | docker login -u _json_key_base64 --password-stdin https://europe-docker.pkg.dev
-        docker build . --file Dockerfile --tag eu.gcr.io/octomind-dev/plw:$RELEASE_VERSION
-        docker push eu.gcr.io/octomind-dev/plw:$RELEASE_VERSION
+        docker build . --file Dockerfile --tag europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw:$RELEASE_VERSION
+        docker push europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw:$RELEASE_VERSION
