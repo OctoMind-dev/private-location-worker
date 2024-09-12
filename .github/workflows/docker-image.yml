@@ -17,6 +17,6 @@ jobs:
         JSON_KEY: ${{ secrets.JSON_KEY }}
       run: |
         echo "Building and pushing $RELEASE_VERSION"
-        cat $JSON_KEY | docker login -u _json_key --password-stdin https://europe-docker.pkg.dev
+        echo -e $JSON_KEY | docker login -u _json_key --password-stdin https://europe-docker.pkg.dev
         docker build . --file Dockerfile --tag eu.gcr.io/octomind-dev/plw:$RELEASE_VERSION
         docker push eu.gcr.io/octomind-dev/plw:$RELEASE_VERSION
