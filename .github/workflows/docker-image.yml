@@ -20,6 +20,5 @@ jobs:
         docker --version
         echo "$JSON_KEY_B64" | docker login -u _json_key_base64 --password-stdin https://europe-docker.pkg.dev
         docker build . -f Dockerfile -t europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw:$RELEASE_VERSION -t europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw:latest
-        docker push europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw:$RELEASE_VERSION
-        docker push europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw:latest
+        docker push europe-docker.pkg.dev/octomind-dev/eu.gcr.io/plw --all-tags
         
