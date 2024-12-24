@@ -82,4 +82,27 @@ services:
       PROXY_PASS: bar
     restart: on-failure
 ```
+### kubernetes
+
+if you want to run the private location worker inside a k8s cluster you clould use:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-location-worker
+spec:
+  containers:
+  - name: plw
+    image: eu.gcr.io/octomind-dev/plw:latest
+    env:
+    - name: APIKEY
+      value: <your api key>
+    - name: PLW_NAME
+      value: staging
+    - name: PROXY_USER
+      value: proxy
+    - name: PROXY_PASS
+      value: secret11
+```
 
