@@ -65,7 +65,7 @@ NYI: for scaling we will also support multiple instances of worker with the same
 ## run
 
 private location worker can simply run as docker container:
-```
+```sh
 docker run --rm -e PLW_NAME=worker1 -e APIKEY=12345 -e PROXY_PASS=secret -e PROXY_USER=octo eu.gcr.io/octomind-dev/plw:latest
 ```
 
@@ -105,4 +105,25 @@ spec:
     - name: PROXY_PASS
       value: secret11
 ```
+### podman
+
+As podman is build a *drop in* replacement for docker the private location worker can be used with podman as well:
+
+```sh
+podman run --rm -e PLW_NAME=worker1 -e APIKEY=12345 -e PROXY_PASS=secret -e PROXY_USER=octo eu.gcr.io/octomind-dev/plw:latest
+```
+
+### podman on windows
+
+If you run the private location worker with podman on windows be aware that the networking in wsl (windows subsystem for linux)
+behaves slightly different to podman on linux. E.g. if you want to connect to a service running on the same host as the
+private location worker, you need to configure your network see [here](https://stackoverflow.com/questions/79098571/podman-container-cannot-connect-to-windows-host) or [on github](https://github.com/eriksjolund/podman-networking-docs?tab=readme-ov-file#outbound-tcpudp-connections-to-the-hosts-localhost)
+
+For example if you want to access a service on the host machine on port 8080 you need to add:
+
+```sh
+podman run --rm ... --network=pasta:-T,8080:8080 eu.gcr.io/octomind-dev/plw:latest
+```
+
+but this only one option, see [github doc](https://github.com/eriksjolund/podman-networking-docs?tab=readme-ov-file#outbound-tcpudp-connections-to-the-hosts-localhost)
 
